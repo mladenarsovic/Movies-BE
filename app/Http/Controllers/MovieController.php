@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
+
+    const DEFAULT_NUMBER_OF_RESULTS = 10;
     /**
      * Display a listing of the resource.
      *
@@ -14,16 +16,27 @@ class MovieController extends Controller
      */
     public function index()
     {
-        if(request('name')){
-            return $this->findMovie(request('name'));
-        }
+        $take = request()->has('take') ? 
+                request('take') : self::DEFAULT_NUMBER_OF_RESULTS;
+        $skip = request('skip');
+              
+        
 
-        return Movie::all();
+        return Movie::skip($skip)->take($take)->get();
+    }
+
+    public function search() 
+    {
+        if(request('name')){
+            return $this->findMovie(request('name'))->skip($skip)->take($take);
+        }
     }
 
     public function findMovie($term){
-        return Movie::where('name', 'LIKE', '%'.$term.'%')->get();
+
+        return Movie::where('name', 'LIKE', '%'.$term.'%');
     }
+
 
     /**
      * Show the form for creating a new resource.
