@@ -15,13 +15,14 @@ class MovieController extends Controller
     public function index()
     {
         if(request('name')){
-            return $this->filterMovie(request('name'));
+            return $this->findMovie(request('name'));
         }
+
         return Movie::all();
     }
 
-    public function filterMovie($name){
-        return Movie::where('name', 'LIKE', '%'.$name.'%')->get();
+    public function findMovie($term){
+        return Movie::where('name', 'LIKE', '%'.$term.'%')->get();
     }
 
     /**
