@@ -14,7 +14,14 @@ class MovieController extends Controller
      */
     public function index()
     {
+        if(request('name')){
+            return $this->filterMovie(request('name'));
+        }
         return Movie::all();
+    }
+
+    public function filterMovie($name){
+        return Movie::where('name', 'LIKE', '%'.$name.'%')->get();
     }
 
     /**
@@ -40,7 +47,7 @@ class MovieController extends Controller
             'director' => 'required',
             'duration' => 'required|min:1|max:500',
             'releaseDate' => 'required|unique',
-                        
+            'imageUrl' => 'url'                        
         ]);
 
         // $movie = new Movie;
@@ -90,9 +97,9 @@ class MovieController extends Controller
             'director' => 'required',
             'duration' => 'required|min:1|max:500',
             'releaseDate' => 'required|unique',
-                        
+            'imageUrl' => 'url'                        
         ]);
-        
+
         $movie = Movie::findOrFail($id);
         $movie->update($request->all());
         return $movie;
