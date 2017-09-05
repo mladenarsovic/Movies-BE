@@ -22,3 +22,5 @@ Route::get('movies/{id}', 'MovieController@show');
 Route::delete('movies/{id}', 'MovieController@destroy');
 Route::post('movies', 'MovieController@store');
 Route::put('movies/{id}', 'MovieController@update');
+
+// Route::resource('movies', 'MovieController');

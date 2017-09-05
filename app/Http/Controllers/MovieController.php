@@ -35,6 +35,22 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate(request(), [
+            'name' => 'required|unique',
+            'director' => 'required',
+            'duration' => 'required|min:1|max:500',
+            'releaseDate' => 'required|unique',
+                        
+        ]);
+
+        // $movie = new Movie;
+        // $movie->name = request('name');
+        // $movie->director = request('director');
+        // $movie->duration = request('duration');
+        // $movie->releaseDate = request('releaseDate');
+        
+        // $movie->save();
+
         return Movie::create($request->all());
     }
 
@@ -55,7 +71,7 @@ class MovieController extends Controller
      * @param  \App\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function edit(Movie $movie)
+    public function edit(Movie $id)
     {
         //
     }
@@ -67,8 +83,16 @@ class MovieController extends Controller
      * @param  \App\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie)
-    {
+    public function update(Request $request, Movie $id)
+    {   
+        $this->validate(request(), [
+            'name' => 'required|unique',
+            'director' => 'required',
+            'duration' => 'required|min:1|max:500',
+            'releaseDate' => 'required|unique',
+                        
+        ]);
+        
         $movie = Movie::findOrFail($id);
         $movie->update($request->all());
         return $movie;
@@ -80,7 +104,7 @@ class MovieController extends Controller
      * @param  \App\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Movie $movie)
+    public function destroy(Movie $id)
     {
         $movie = Movie::findOrFail($id);
         $movie->delete();
